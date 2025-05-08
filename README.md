@@ -1,3 +1,6 @@
+FLV Format:
+|FLV Header|footer|FLV Tag Header|FLV Tag Body|...|
+
 __FLV Header Struct__
 | 1 byte "F" | signature
 | 1 byte "L" | signature
