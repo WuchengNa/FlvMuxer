@@ -1,4 +1,4 @@
-#include "common.h"
+#include "common/common.h"
 #include <memory.h>
 
 static const uint8_t FLV_HEADER_SIZE = 9; // FLV header size in bytes

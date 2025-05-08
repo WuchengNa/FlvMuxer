@@ -1,0 +1,27 @@
+project(unittest)
+message("Current project name: ${PROJECT_NAME}")
+
+list(APPEND HEADER_DIRS ${CMAKE_SOURCE_DIR}/include)
+list(APPEND HEADER_DIRS ${CMAKE_SOURCE_DIR}/3rd/include)
+list(APPEND HEADER_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
+
+file(GLOB_RECURSE SRC_FILE ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+
+add_executable(${PROJECT_NAME} ${SRC_FILE})
+
+message("Header dirs: ${HEADER_DIRS}")
+target_include_directories(${PROJECT_NAME} PRIVATE ${HEADER_DIRS})
+
+#set /MTd or /MT
+if(PLF_WINDOWS)
+    message("set msvc property, for /MT or /MTD")
+    set_property(TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
+list(APPEND LINK_DIRS ${CMAKE_SOURCE_DIR}/3rd/lib/${PLF_DIR})
+message("Link dirs: ${LINK_DIRS}")
+target_link_directories(${PROJECT_NAME} PRIVATE ${LINK_DIRS})
+
+list(APPEND LINK_LIBS gtest FlvMuxer)
+message("${PROJECT_NAME} Link libs: ${LINK_LIBS}")
+target_link_libraries(${PROJECT_NAME} PRIVATE ${LINK_LIBS})
