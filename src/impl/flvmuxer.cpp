@@ -1,35 +1,40 @@
 #include "flvmuxer.h"
-#include "flv_def.h"
+#include "flv_session_mrg.h"
 
-// #define LOG_INFO(X) std::cout << X << std::endl
 
-FLVSDK_API int FLC_CALL FLVSDK_Init()
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_Init()
 {
-    // LOG_INFO("[API] FLVSDK_Init");
+    FLVSessionMrg::GetInstance();
     return FLV_CODE_OK;
 }
 
-FLVSDK_API int FLC_CALL FLVSDK_UnInit()
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_UnInit()
 {
-    // LOG_INFO("[API] FLVSDK_UnInit");
     return FLV_CODE_OK;
 }
 
-FLVSDK_API int FLC_CALL FLVSDK_CreatePacker()
-{
-    // LOG_INFO("[API] FLVSDK_CreatePacker");
-    return FLV_CODE_OK;
+FLVSDK_API SESSION_ID FLV_CALL  FLVSDK_CreatePacker(MediaDesc* media_desc)
+{  
+    return FLVSessionMrg::GetInstance().CreateSession(media_desc);  
 }
 
-FLVSDK_API int FLC_CALL FLVSDK_PushAVFrame()
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL  FLVSDK_SetFlvDataCallback(SESSION_ID packer_id,FLVDataCallback callback, void* user_data)
 {
-    // LOG_INFO("[API] FLVSDK_PushAVFrame");
-    return FLV_CODE_OK;
+    auto callback_func =
+    [callback,user_data] (SESSION_ID packer_id, char* data, int size) {
+        callback(packer_id,data,size,user_data);
+    };
+   return FLVSessionMrg::GetInstance().SetCallback(packer_id, callback_func);
 }
 
-FLVSDK_API int FLC_CALL FLVSDK_DestroyPacker()
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_PushAVFrame(SESSION_ID packer_id, AVFrame* av_frame)
 {
-    // LOG_INFO("[API] FLVSDK_DestroyPacker");
+    return FLVSessionMrg::GetInstance().PushAVFrame(packer_id, *av_frame);
+}
+
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_DestroyPacker(SESSION_ID packer_id)
+{
+    FLVSessionMrg::GetInstance().DestroySession(packer_id);
     return FLV_CODE_OK;
 
 }

@@ -3,7 +3,8 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <memory>
-
+#include <functional>
+#include "flv_def.h"
 typedef struct FLVHeader 
 {
     uint8_t signature_[3]{'F', 'L', 'V'}; // "FLV"
@@ -46,3 +47,5 @@ typedef struct FLVTag
 typedef std::shared_ptr<FLVHeader> FLVHeaderPtr;
 typedef std::shared_ptr<FLVTagHeader> FLVTagHeaderPtr;
 typedef std::shared_ptr<FLVTag> FLVTagPtr;
+
+typedef std::function<void(SESSION_ID packer_id, char* data, int size)> FLVCallBackFunc;

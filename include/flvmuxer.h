@@ -8,15 +8,24 @@ extern "C"
 {
 #endif
 
-FLVSDK_API int FLC_CALL FLVSDK_Init();
+// 初始化SDK
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_Init();
 
-FLVSDK_API int FLC_CALL FLVSDK_UnInit();
+// 反初始化SDK
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_UnInit();
 
-FLVSDK_API int FLC_CALL FLVSDK_CreatePacker();
+// 创建打包器
+// ret: packer id (为0表示失败)
+FLVSDK_API SESSION_ID FLV_CALL FLVSDK_CreatePacker(MediaDesc* media_desc);
 
-FLVSDK_API int FLC_CALL FLVSDK_PushAVFrame();
+// 设置回调
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_SetFlvDataCallback(SESSION_ID packer_id,FLVDataCallback callback, void* user_data);
 
-FLVSDK_API int FLC_CALL FLVSDK_DestroyPacker();
+// 推送音视频帧
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_PushAVFrame(SESSION_ID packer_id, AVFrame* av_frame);
+
+// 销毁打包器
+FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_DestroyPacker(SESSION_ID packer_id);
 
 #ifdef __cplusplus
 };

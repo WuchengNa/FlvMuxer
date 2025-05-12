@@ -1,7 +1,7 @@
 FLV Format:
 |FLV Header|footer|FLV Tag Header|FLV Tag Body|...|
 
-__FLV Header Struct__
+__FLV Header Struct__ (9 BYTE)
 | 1 byte "F" | signature
 | 1 byte "L" | signature
 | 1 byte "V" | signature
@@ -17,7 +17,7 @@ __FLV Body Struct__
 | 11  byte | tag header
 | ... byte | tag body (data)
 
-__FLV TAG Header Struct__
+__FLV TAG Header Struct__ (11 BYTE)
 | 2 bit | Reserved for FMS, Always be 0
 | 1 bit | Filter，Always be 0
 | 5 bit | Tag Types, Audio:8/ video:9/ script:18
@@ -27,5 +27,5 @@ __FLV TAG Header Struct__
 | 3 byte | steamID, Always be 0
 
 __FLV TAG Body Struct__
-| ... byte | body payload data
+|Media packet head | Media packet encoded data |
 
