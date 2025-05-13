@@ -1,5 +1,5 @@
 #include "flvmuxer.h"
-#include "flv_session_mrg.h"
+#include "session/flv_session_mrg.h"
 
 
 FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_Init()

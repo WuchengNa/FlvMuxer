@@ -5,6 +5,12 @@
 #include <memory>
 #include <functional>
 #include "flv_def.h"
+
+static const uint8_t FLV_HEADER_SIZE = 9; // FLV header size in bytes
+static const uint8_t FLV_TAG_HEADER_SIZE = 11; // FLV tag header size in bytes
+
+static const uint8_t VALUE_TRUE = 0x01;
+static const uint8_t VALUE_FALSE = 0x00;
 typedef struct FLVHeader 
 {
     uint8_t signature_[3]{'F', 'L', 'V'}; // "FLV"
@@ -34,6 +40,23 @@ typedef struct FLVTag
     uint8_t *body_; // pointer to the data (audio or video)
 } FLVTag;
 
+typedef struct FLVTagVideoData
+{
+    uint8_t frame_type_; // 4 bits, 0x01 (key frame), 0x02 (inter frame)
+    uint32_t cts_; // 3 bytes, composition time stamp (ms)/ cts = (pts - dts)/90
+    uint8_t* data_; // pointer to the video data
+    uint32_t data_size_; // size of the video data
+} FLVTagVideoMetaData;
+
+typedef struct FLVTagAudioData
+{
+    uint8_t codec_id_;      // codec id / 0x00 (raw), 0x01 (adpcm), 0x02 (mp3), 0x0a (aac)
+    uint8_t sample_rate_;     // sample rate of the audio/ 0x00 (5.5kHz), 0x01 (11kHz), 0x02 (22kHz), 0x03 (44kHz) /aac always 0x03
+    uint8_t bits_per_sample_; // bits per sample/ 0x00 (8 bits), 0x01 (16 bits)
+    uint8_t channels_;        // number of channels (0 for mono, 1 for stereo)
+    uint8_t *data_;          // pointer to the audio data
+    uint32_t data_size_;     // size of the audio data
+} FLVTagAudioMetaData;
 
 // typedef struct FLVFile
 // {

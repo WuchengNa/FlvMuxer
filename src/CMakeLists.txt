@@ -12,6 +12,12 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 file(GLOB IMPL_SRC ${CMAKE_SOURCE_DIR}/src/impl/*.cpp)
 list(APPEND SRC_FILE ${IMPL_SRC})
 
+file(GLOB MUXER_SRC ${CMAKE_SOURCE_DIR}/src/impl/muxer/*.cpp)
+list(APPEND SRC_FILE ${MUXER_SRC})
+
+file(GLOB SESSION_SRC ${CMAKE_SOURCE_DIR}/src/impl/session/*.cpp)
+list(APPEND SRC_FILE ${SESSION_SRC})
+
 #set link dir,must before add_executable()
 link_directories(${CMAKE_SOURCE_DIR}/3rd/lib/${PLF_DIR})
 
@@ -26,6 +32,8 @@ endif()
 if(PLF_WINDOWS)
     source_group("include" FILES ${CMAKE_SOURCE_DIR}/include/*)
     source_group("src\\impl" FILES ${CMAKE_SOURCE_DIR}/src/impl/*)
+    source_group("src\\impl\\muxer" FILES ${CMAKE_SOURCE_DIR}/src/impl/muxer/*)
+    source_group("src\\impl\\session" FILES ${CMAKE_SOURCE_DIR}/src/impl/session/*)
     source_group("src\\common" FILES ${CMAKE_SOURCE_DIR}/src/common/*)
     source_group("src\\util" FILES ${CMAKE_SOURCE_DIR}/src/util/*)
 endif()

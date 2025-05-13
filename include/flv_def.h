@@ -21,8 +21,31 @@
 
 #include <stdint.h>
 
-#define FLV_CODE_OK 1
-#define FLV_CODE_ERR 0
+// ERROR CODE
+#define FLV_CODE_OK 0
+#define FLV_CODE_ERR 1
+#define FLV_CODE_ERR_NO_MEMORY 2
+#define FLV_CODE_ERR_INVALID_PARAM 3
+#define FLV_CODE_ERR_INVALID_STATE 4
+#define FLV_CODE_ERR_NO_DATA 5
+
+//Media Type
+#define FLV_MEDIA_TYPE_AUDIO 0
+#define FLV_MEDIA_TYPE_VIDEO 1
+#define FLV_MEDIA_TYPE_SCRIPT 2
+
+//Codec ID
+#define FLV_CODEC_ID_UNKOWN 0
+#define FLV_CODEC_ID_AAC 1
+#define FLV_CODEC_ID_H264 2
+
+//Frame Type
+#define FLV_FRAME_TYPE_UNKOWN 0
+#define FLV_FRAME_TYPE_KEY 1
+#define FLV_FRAME_TYPE_INTER 2
+#define FLV_FRAME_TYPE_SCRIPT 3
+#define FLV_FRAME_TYPE_AUDIO 4
+
 
 typedef uint32_t FLVSDK_ERR_CODE;
 typedef  uint32_t SESSION_ID;
@@ -47,18 +70,20 @@ struct MediaDesc
 {
     const char* media_name;
     uint32_t duration; //-1 for infinite
-    AudioDesc audio_desc;
-    VideoDesc video_desc;
+    AudioDesc* audio_desc;
+    VideoDesc* video_desc;
 };
 
 struct AVFrame
 {
     uint32_t frame_type;
     uint32_t codec_id;
-    uint32_t timestamp;
+    uint32_t pts; //pts (in milliseconds)
+    uint32_t dts; //dts (in milliseconds)
+
+    uint8_t is_key_frame;
+    uint8_t* data;
     uint32_t data_size;
-    bool is_key_frame;
-    char* data;
 };
 
 typedef void(FLV_CALLBACK *FLVDataCallback) (SESSION_ID packer_id, char* data, int size, void* user_data);
