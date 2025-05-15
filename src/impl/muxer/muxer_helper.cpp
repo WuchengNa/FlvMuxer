@@ -128,7 +128,8 @@ bool FLVMuxerHelper::generateFlvTagBody(const AVFrame &av_frame, FLVTag &flv_tag
 {
     flv_tag.body_ = new uint8_t[av_frame.data_size];
     memcpy(flv_tag.body_, av_frame.data, av_frame.data_size);
-    flv_tag.previous_tag_size_ = FLV_TAG_HEADER_SIZE + av_frame.data_size;
-    
+    flv_tag.previous_tag_size_ = previous_tag_size_;
+    // 计算并记录当前tag的大小
+    previous_tag_size_ = FLV_TAG_HEADER_SIZE + av_frame.data_size;
     return true;
 }

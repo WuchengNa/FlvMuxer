@@ -38,3 +38,4 @@ FLVSDK_API FLVSDK_ERR_CODE FLV_CALL FLVSDK_DestroyPacker(SESSION_ID packer_id)
     return FLV_CODE_OK;
 
 }
+
