@@ -18,6 +18,9 @@ list(APPEND SRC_FILE ${MUXER_SRC})
 file(GLOB SESSION_SRC ${CMAKE_SOURCE_DIR}/src/impl/session/*.cpp)
 list(APPEND SRC_FILE ${SESSION_SRC})
 
+file(GLOB COMMON_SRC ${CMAKE_SOURCE_DIR}/src/common/*.h)
+file(GLOB UTIL_SRC ${CMAKE_SOURCE_DIR}/src/util/*.h)
+
 #set link dir,must before add_executable()
 link_directories(${CMAKE_SOURCE_DIR}/3rd/lib/${PLF_DIR})
 
@@ -30,12 +33,12 @@ if(BUILD_SHARED_LIBS)
 endif()
 #set vs src group
 if(PLF_WINDOWS)
-    source_group("include" FILES ${CMAKE_SOURCE_DIR}/include/*)
-    source_group("src\\impl" FILES ${CMAKE_SOURCE_DIR}/src/impl/*)
-    source_group("src\\impl\\muxer" FILES ${CMAKE_SOURCE_DIR}/src/impl/muxer/*)
-    source_group("src\\impl\\session" FILES ${CMAKE_SOURCE_DIR}/src/impl/session/*)
-    source_group("src\\common" FILES ${CMAKE_SOURCE_DIR}/src/common/*)
-    source_group("src\\util" FILES ${CMAKE_SOURCE_DIR}/src/util/*)
+    source_group("src" FILES "")
+    source_group("src\\impl" FILES ${IMPL_SRC})
+    source_group("src\\impl\\muxer" FILES ${MUXER_SRC})
+    source_group("src\\impl\\session" FILES ${SESSION_SRC})
+    source_group("src\\common" FILES ${COMMON_SRC})
+    source_group("src\\util" FILES ${UTIL_SRC})
 endif()
 
 #set /MTd or /MT
